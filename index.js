@@ -1,8 +1,10 @@
 const express = require('express');
+const bodyparser = require('body-parser');
 
 const app = express();
 const PORT = 4000;
-const mytoken = "INDIA"
+const mytoken = "INDIA";
+app.use(bodyparser.json());
 
 app.listen(PORT, (req, res)=>{
     console.log(`Webhook is running on port ${PORT}`);
@@ -24,6 +26,13 @@ app.get('/webhook', (req, res)=>{
             res.status(404);
         }
     }
+});
+
+app.post("/webhook", (req, res)=>{
+    const data = req.body;
+    console.log("post req aa gyi")
+    console.log(data);
+
 })
 
 app.get("/", (req, res)=>{
