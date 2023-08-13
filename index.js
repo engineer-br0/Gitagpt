@@ -33,6 +33,9 @@ app.post("/webhook", (req, res)=>{
     console.log("post req aa gyi")
     console.log(data);
     console.log(data.entry[0].changes[0]);
+    console.log(data.entry[0].messages[0]);
+    console.log(data.entry[0].contacts[0])
+
 
 })
 
