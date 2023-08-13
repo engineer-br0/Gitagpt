@@ -39,7 +39,7 @@ app.post("/webhook", async (req, res)=>{
         // console.log(data.entry[0].changes[0]);
         // console.log(data.entry[0].changes[0].value.messages[0]);
 
-       const res = await axios({
+       const response = await axios({
         method: "POST",
         url: "https://graph.facebook.com/v17.0/"+ data.entry[0].changes[0].value.metadata.phone_number_id + "/messages",
         headers: {
@@ -54,7 +54,8 @@ app.post("/webhook", async (req, res)=>{
                 }
                 }
         }
-       )
+       );
+
        res.status(200).send("success");
 
     }
