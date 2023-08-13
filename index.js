@@ -34,7 +34,7 @@ app.post("/webhook", (req, res)=>{
     console.log(data);
     if(data && data.entry && data.entry[0].changes && data.entry[0].changes[0].value && data.entry[0].changes[0].value.metadata && data.entry[0].changes[0].value.metadata.phone_number_id && data.entry[0].changes[0].value.messages && data.entry[0].changes[0].value.messages[0]){
         console.log(data.entry[0].changes[0]);
-        console.log(data.entry[0].messages[0]);
+        console.log(data.entry[0].changes[0].value.messages[0]);
     }
     
 
