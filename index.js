@@ -1,6 +1,14 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const axios = require('axios');
+//gpt integration
+import { Configuration, OpenAIApi } from "openai";
+const configuration = new Configuration({
+    organization: "org-J7R5Hgesx4tm5zc3bCXJCCh9",
+    apiKey: "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",
+});
+const openai = new OpenAIApi(configuration);
+const response = await openai.listEngines();
 
 const app = express();
 const PORT = 3001;
@@ -12,6 +20,21 @@ app.use(bodyparser.json());
 app.listen(PORT, (req, res)=>{
     console.log(`Webhook is running on port ${PORT}`);
 });
+
+const generateResponse = async (prompt) =>{
+    try{
+        const response = await openai.createCompletion({
+            model: "text-davinci-003",
+            prompt: prompt,
+            max_tokens: 7,
+            temperature: 0,
+          });
+          return response;
+    }
+    catch(err){
+        return err;
+    }
+}
 
 app.get('/webhook', (req, res)=>{
     console.log("aa gyi req")
@@ -39,6 +62,7 @@ app.post("/webhook", async (req, res)=>{
         // console.log(data.entry[0].changes[0]);
         // console.log(data.entry[0].changes[0].value.messages[0]);
 
+        const answer = generateResponse(data.entry[0].changes[0].value.messages[0].text.body);
        const response = await axios({
         method: "POST",
         url: "https://graph.facebook.com/v17.0/"+ data.entry[0].changes[0].value.metadata.phone_number_id + "/messages",
@@ -50,7 +74,7 @@ app.post("/webhook", async (req, res)=>{
                 "messaging_product": "whatsapp",
                 "to": data.entry[0].changes[0].value.messages[0].from,
                 "text": {
-                    body : "hi this is reply from MRIDUL'S server"
+                    body : answer
                 }
                 }
         }
