@@ -62,7 +62,8 @@ app.post("/webhook", async (req, res)=>{
         // console.log(data.entry[0].changes[0]);
         // console.log(data.entry[0].changes[0].value.messages[0]);
 
-        const answer = generateResponse(data.entry[0].changes[0].value.messages[0].text.body);
+        const answer = await generateResponse(data.entry[0].changes[0].value.messages[0].text.body);
+        try{
        const response = await axios({
         method: "POST",
         url: "https://graph.facebook.com/v17.0/"+ data.entry[0].changes[0].value.metadata.phone_number_id + "/messages",
@@ -81,12 +82,11 @@ app.post("/webhook", async (req, res)=>{
        );
 
        res.status(200).send("success");
-
     }
-    else{
-        res.status(404).send("error occured");
+    catch(Err){
+        res.status(404).send("error")
     }
-    
+}
 
 
 })
