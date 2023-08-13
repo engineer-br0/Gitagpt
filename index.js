@@ -2,7 +2,7 @@ const express = require('express');
 const bodyparser = require('body-parser');
 
 const app = express();
-const PORT = 4000;
+const PORT = 3001;
 const mytoken = "INDIA";
 app.use(bodyparser.json());
 
@@ -32,6 +32,7 @@ app.post("/webhook", (req, res)=>{
     const data = req.body;
     console.log("post req aa gyi")
     console.log(data);
+    console.log(data.entry[0].changes[0]);
 
 })
 
