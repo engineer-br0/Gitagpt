@@ -1,6 +1,6 @@
-const express = require('express');
-const bodyparser = require('body-parser');
-const axios = require('axios');
+import express from 'express';
+import bodyparser from 'body-parser';
+import axios from 'axios';
 //gpt integration
 import { Configuration, OpenAIApi } from "openai";
 const configuration = new Configuration({
